@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corevanta - Enterprise Software Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: url('background.png') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
+            background: linear-gradient(45deg, #3b82f6, #374151);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #3b82f6, #374151);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #3b82f6, #374151);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Updated Partners Section */
+        .partners {
+            background: linear-gradient(rgba(88, 204, 237, 0.6), rgba(88, 204, 237, 0.6)), 
+                        url('web Background.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .partner-logo {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .partner-logo img {
+            max-width: 180px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        /* About Section */
+        .about-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-content h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .service-item {
+            background: linear-gradient(45deg, #3b82f6, #374151);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Portfolio Page */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .portfolio-item {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            min-height: 300px;
+        }
+
+        /* Products Page */
+        .products-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-category {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-category h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .product-list {
+            list-style: none;
+        }
+
+        .product-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .product-list li:hover {
+            color: #3b82f6;
+            padding-left: 10px;
+        }
+
+        /* Contact Page */
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(45deg, #3b82f6, #374151);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .contact-item h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="Corevanta Logo for website.png" alt="Corevanta Logo">
+                <span class="logo-text">Corevanta</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('portfolio')">Portfolio</a></li>
+                <li><a href="#" onclick="showPage('products')">Products</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="container">
+                <section class="hero">
+                    <h1>Welcome to Corevanta</h1>
+                    <p><strong>Smart Systems for Smart Business</strong></p>
+                    <p>Your trusted partner for enterprise software solutions across East Africa, with a presence in Dubai. We digitalize businesses through innovative technology.</p>
+                    <a href="#" class="cta-button" onclick="showPage('contact')">Get Started Today</a>
+                </section>
+
+                <section class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏥</div>
+                        <h3>Healthcare Solutions</h3>
+                        <p>Comprehensive Hospital Management Systems designed for modern healthcare facilities.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏫</div>
+                        <h3>Education Management</h3>
+                        <p>Complete School Management Systems to streamline educational institutions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💼</div>
+                        <h3>Business Solutions</h3>
+                        <p>HRMS, POS, and custom software solutions for any business digitalization needs.</p>
+                    </div>
+                </section>
+
+                <section class="partners">
+                    <h3>Our Official Partners</h3>
+                    <div class="partner-logos">
+                        <div class="partner-logo">
+                            <img src="BH-Tech Logo.png" alt="HB-Tech Partner Logo">
+                        </div>
+                        <div class="partner-logo">
+                            <img src="PHP POS Logo.png" alt="PHP POS Partner Logo">
+                        </div>
+                    </div>
+                </section>
+
+                <div style="text-align: center; margin-top: 2rem; background: rgba(255, 255, 255, 0.95); padding: 1rem; border-radius: 10px;">
+                    <p><strong>📍 Located at:</strong> Mutithi Road, Westlands, Nairobi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <div class="container">
+                <div class="about-content">
+                    <h2>About Corevanta</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 2rem;">Corevanta is your one-stop business systems solution center. We specialize in a wide range of enterprise software including:</p>
+                    
+                    <div class="services-grid">
+                        <div class="service-item">
+                            <h4>Hospital Management Systems (HMS)</h4>
+                            <p>Complete healthcare facility management</p>
+                        </div>
+                        <div class="service-item">
+                            <h4>Church Management Systems (CHMS)</h4>
+                            <p>Comprehensive church administration tools</p>
+                        </div>
+                        <div class="service-item">
+                            <h4>Human Resource Management Systems (HRMS)</h4>
+                            <p>Employee management and payroll solutions</p>
+                        </div>
+                        <div class="service-item">
+                            <h4>School Management Systems (SMS)</h4>
+                            <p>Educational institution administration</p>
+                        </div>
+                        <div class="service-item">
+                            <h4>Point of Sale Systems (POS)</h4>
+                            <p>Retail and business transaction management</p>
+                        </div>
+                        <div class="service-item">
+                            <h4>Custom Solutions</h4>
+                            <p>Any other system you need to digitalize your business</p>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 1.1rem; margin-top: 2rem; text-align: center;">
+                        <strong>Operating across Kenya and neighboring East African countries, with a presence in Dubai.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Page -->
+        <div id="portfolio" class="page">
+            <div class="container">
+                <h2 style="text-align: center; color: white; margin-bottom: 2rem; font-size: 2.5rem;">Our Portfolio</h2>
+                
+                <div class="portfolio-grid">
+                    <div class="portfolio-item"></div>
+                    <div class="portfolio-item"></div>
+                    <div class="portfolio-item"></div>
+                    <div class="portfolio-item"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Page -->
+        <div id="products" class="page">
+            <div class="container">
+                <h2 style="text-align: center; color: white; margin-bottom: 2rem; font-size: 2.5rem;">Our Products</h2>
+                
+                <div class="products-categories">
+                    <div class="product-category">
+                        <h3>🏥 Healthcare Solutions</h3>
+                        <ul class="product-list">
+                            <li>Hospital Management System</li>
+                            <li>Clinic Management Software</li>
+                            <li>Patient Records Management</li>
+                            <li>Pharmacy Management System</li>
+                            <li>Laboratory Information System</li>
+                            <li>Medical Billing Software</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="product-category">
+                        <h3>🏫 Education Management</h3>
+                        <ul class="product-list">
+                            <li>School Management System</li>
+                            <li>Student Information System</li>
+                            <li>Learning Management System</li>
+                            <li>Examination Management</li>
+                            <li>Fee Management System</li>
+                            <li>Library Management System</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="product-category">
+                        <h3>💼 Business Solutions</h3>
+                        <ul class="product-list">
+                            <li>Human Resource Management</li>
+                            <li>Payroll Management System</li>
+                            <li>Point of Sale Systems</li>
+                            <li>Inventory Management</li>
+                            <li>Customer Relationship Management</li>
+                            <li>Enterprise Resource Planning</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="product-category">
+                        <h3>⛪ Religious Organizations</h3>
+                        <ul class="product-list">
+                            <li>Church Management System</li>
+                            <li>Membership Management</li>
+                            <li>Event Management</li>
+                            <li>Donation Tracking</li>
+                            <li>Ministry Management</li>
+                            <li>Communication Tools</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="product-category">
+                        <h3>🏪 Retail Solutions</h3>
+                        <ul class="product-list">
+                            <li>Point of Sale Software</li>
+                            <li>Inventory Management</li>
+                            <li>Sales Analytics</li>
+                            <li>Customer Management</li>
+                            <li>Multi-branch Support</li>
+                            <li>E-commerce Integration</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="product-category">
+                        <h3>🔧 Custom Solutions</h3>
+                        <ul class="product-list">
+                            <li>Bespoke Software Development</li>
+                            <li>System Integration</li>
+                            <li>Mobile Applications</li>
+                            <li>Web Applications</li>
+                            <li>Database Management</li>
+                            <li>Any system you need!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="container">
+                <h2 style="text-align: center; color: white; margin-bottom: 2rem; font-size: 2.5rem;">Contact Us</h2>
+                
+                <div class="contact-content">
+                    <div class="contact-form">
+                        <h3>Get in Touch</h3>
+                        <form action="https://formspree.io/f/manbqbrv" method="POST">
+                            <label for="name">Your name:</label>
+                            <input type="text" id="name" name="name" required>
+
+                            <label for="email">Your email:</label>
+                            <input type="email" id="email" name="email" required>
+
+                            <label for="message">Your message:</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+
+                            <button type="submit" class="cta-button">Send</button>
+                        </form>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        
+                        <div class="contact-item">
+                            <h4>📧 Email</h4>
+                            <p></p>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <h4>📞 Phone</h4>
+                            <p></p>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <h4>📍 Address</h4>
+                            <p>Muthithi Road, Westland, Nairobi</p>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <h4>🗺️ Map</h4>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Corevanta - Owned by Qualimier Pro LTD. All rights reserved.</p>
+    
+
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.style.color = '#333');
+            event.target.style.color = '#3b82f6';
+        }
+
+        // Mobile menu toggle (basic implementation)
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Formspree form handling
+        const contactForm = document.querySelector('.contact-form form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Sending...';
+                
+                // Formspree will handle the submission and redirect
+                // You can add additional handling here if needed
+            });
+        }
+    </script>
+</body>
+</html>
